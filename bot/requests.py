@@ -3,7 +3,7 @@ import re
 from nasaapi import Client
 
 
-def get_nasa_img(request_text):
+def get_nasa_img(query, nasa):
     """Should return media, caption and post link"""
     pass
 

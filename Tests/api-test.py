@@ -1,5 +1,6 @@
 import tweepy
 from nasaapi import Client
+import nasapy
 import json
 
 #loonathedorm
@@ -10,7 +11,7 @@ import json
 # twt_bearer_token = 'AAAAAAAAAAAAAAAAAAAAANuYhgEAAAAAA9%2B732vxn0UueqK%2FZV5NHnn3GUA%3DhNkWpN6pVttSA2HpnTSITalAL08RI3R9F1ubhVowsYXMnVbJ8a'
 # client_id = 'UmdBRDJ1TFFYLWhOYk1RVFhGaHA6MTpjaQ'
 # client_secret = 'Em-dFljxdekc166pWASZi9qRGF1g3pY2lZ_x9l2iccbw7bZADT'
-# nasa_api_key = '4Ih5vtupnli8qtBxjKOcSCqsQZWVJRwMb79rgiTu'
+nasa_api_key = '4Ih5vtupnli8qtBxjKOcSCqsQZWVJRwMb79rgiTu'
 
 
 
@@ -31,14 +32,17 @@ auth = tweepy.OAuthHandler(twt_api_key, twt_secret_key)
 auth.set_access_token(twt_token, twt_secret_token)
 api = tweepy.API(auth)
 
-# nasa = Client(nasa_api_key)
+nasa = nasapy.Nasa(key=nasa_api_key)
 
-# data = (nasa.nivl.asset('GSFC_20171208_Archive_e001988'))
-# print(data['collection']['href'])
+data = nasa.media_search(query='moon')
+print(data)
 
-text = "#loona @loonatheworld"
-tweets = []
-for tweet in api.search_tweets(q=text, result_type='recent', count=1, include_entities=False):
-    tweets.append(tweet)
+# data = (nasa.nivl.search(query=''))
+# print(data)
 
-print(tweets)
+# text = "#loona @loonatheworld"
+# tweets = []
+# for tweet in api.search_tweets(q=text, result_type='recent', count=1, include_entities=False):
+#     tweets.append(tweet)
+
+# print(tweets)

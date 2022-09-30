@@ -1,3 +1,4 @@
+from multiprocessing.connection import Client
 import os
 import configparser
 import tweepy
@@ -36,6 +37,11 @@ text_config = config['Texts']
 tweet_text = text_config['tweet_text']
 extra_text = text_config['extra_text']
 
+
+#Nasa Api
+nasa = Client(nasa_api_key)
+
+#Twitter Api
 auth = tweepy.OAuthHandler(twt_api_key, twt_secret_key)
 auth.set_access_token(twt_token, twt_secret_token)
 api = tweepy.API(auth)

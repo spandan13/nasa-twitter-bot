@@ -19,9 +19,10 @@ def tweet_poster(reply_id, request_text, request_user, search_query):
     log = config.log_file
     repeat_after = config.allow_repeat_after
     api = config.api
+    nasa_api = config.nasa
     post_number = get_post_number(log)
 
-    media, caption, details_link = requests.get_nasa_img(search_query)
+    media, caption, details_link = requests.get_nasa_img(search_query, nasa_api)
     check_if_tweeted(media)
 
     while check_if_tweeted(media) or is_banned(media):
