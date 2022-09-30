@@ -1,14 +1,43 @@
 import datetime
 import re
 from nasaapi import Client
+import requests
+import random
+import os
 
 
-def get_nasa_img(query, nasa):
+def get_nasa_img(query, nasa, url, temp_download):
     """Should return media, caption and post link"""
-    pass
-
+    data = requests.get(url).json()['collection']['items']
+    img = random.choice(data)['data'][0]
+    caption = img['title']
+    img_id = img['nasa_id']
+    details = "https://images.nasa.gov/details-" + img_id
+    media_link = "https://images-assets.nasa.gov/image/" + img_id + '/' + img_id
+    actual_link = get_img_link(media_link, img_id, temp_download)
+    
+    return actual_link, caption, details
+    
 def search_query(request_text, search_terms):
-    pass
+    if '#' in request_text:
+        query = request_text.split('#')[1].split()[0]
+    else:
+        query = None
+    return query
+
+def get_img_link(media_link, id, temp):
+    filename = temp + id + '.jpg'
+    request = requests.get(url=(media_link+'~large.jpg'), stream=True)
+    if request.status_code == 200:
+        with open(filename, 'wb') as image:
+            for chunk in request:
+                image.write(chunk)
+    else:
+        requests.get(url=(media_link+'~orig.jpg'), stream=True)
+        with open(filename, 'wb') as image:
+            for chunk in request:
+                image.write(chunk)
+    return filename
 
 def mentions(bot_account, api):
     """Pulls recent mentions to the bot

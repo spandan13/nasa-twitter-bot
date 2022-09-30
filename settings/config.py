@@ -18,6 +18,7 @@ twt_token = api_config['twt_token']
 twt_secret_token = api_config['twt_secret_token']
 twt_bearer_token = api_config['twt_bearer_token']
 nasa_api_key = api_config['nasa_api_key']
+api_url = api_config['api_url']
 
 app_config = config['App']
 allow_repeat_after = app_config['allow_repeat_after']
@@ -26,6 +27,7 @@ bot_account = app_config['bot_account']
 master_account = app_config['master_account']
 banned_twt = app_config['banned_twt']
 blocked = app_config['blocked']
+temp_downloads = app_config['temp_downloads']
 search_terms = ast.literal_eval(app_config['search_terms'])
 
 orders_config = config['Orders']
