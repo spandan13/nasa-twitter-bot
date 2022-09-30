@@ -1,0 +1,7 @@
+Required Tweet Fields:
+
+text --
+id --
+user.screen_name --
+in_reply_to_status_id --
+created_at --
