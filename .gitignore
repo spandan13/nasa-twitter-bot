@@ -2,3 +2,4 @@ Notes.txt
 *.jpg
 Tests/*
 __pycache__
+logs/log

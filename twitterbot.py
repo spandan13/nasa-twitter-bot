@@ -28,7 +28,7 @@ def tweet_poster(reply_id, request_text, request_user, search_query):
         media, caption, details_link = requests.get_nasa_img(request_text)
         check_if_tweeted(media)
         
-    tweet_text = (f'@{request_user} {config.tweet_text} {caption}. More Details >> {details_link}')
+    tweet_text = (f'@{request_user} \U0001F30C{config.tweet_text} {caption}.\n\U000027A1 More Details: {details_link}')
     t = status.Tweet(media, tweet_text, reply_id)
     tweet_id = t.post_to_twitter(api)
     log_line = logger.log_line(post_number, tweet_id, media, reply_id, request_user)

@@ -36,7 +36,7 @@ request_commands = orders_config['request_commands'].split('\n')
 time_tolerance = float(orders_config['time_tolerance'])
 
 text_config = config['Texts']
-tweet_text = ast.literal_eval(text_config['tweet_text'])
+tweet_text = text_config['tweet_text']
 extra_text = text_config['extra_text']
 
 

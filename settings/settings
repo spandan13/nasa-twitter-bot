@@ -20,7 +20,7 @@ bot_account = @TheNasaBot
 master_account = @SpandanAthaide
 banned_twt = /home/ubuntu/nasa-twitter-bot/logs/banned
 blocked = /home/ubuntu/nasa-twitter-bot/settings/blocked
-temp_downloads = /home/ubuntu/nasa-twitter-bot/temp_downloads/dshk-ds324.jpg
+temp_downloads = /home/ubuntu/nasa-twitter-bot/temp_downloads/
 search_terms = ['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'milky way', 'andromeda', 'galaxy', 'hubble', 'james webb', 'moon']
 
 
@@ -34,5 +34,5 @@ time_tolerance = 30
 
 [Texts]
 # Respect indentation: it is TWO spaces
-tweet_text = '\U0001F30C' 
+tweet_text =  
 extra_text = 

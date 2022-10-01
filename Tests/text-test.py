@@ -9,3 +9,4 @@
 line = "1   1576083764359876123 Sat Oct 01 05:16:37 img-gal.jpg @twitter_user   1908083825163924177"
 
 print(line.split('\t'))
+print("\U000027A1")
