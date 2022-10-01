@@ -3,7 +3,6 @@
 from settings import config
 from bot import status
 from bot import requests
-from bot import timeline
 from logs import logger
 from logs import banner
 import random
@@ -19,21 +18,22 @@ def tweet_poster(reply_id, request_text, request_user, search_query):
     log = config.log_file
     repeat_after = config.allow_repeat_after
     api = config.api
-    nasa_api = config.nasa
+    #nasa_api = config.nasa
     post_number = get_post_number(log)
 
-    media, caption, details_link = requests.get_nasa_img(search_query, nasa_api, config.api_url, config.temp_downloads)
+    media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
     check_if_tweeted(media)
 
     while check_if_tweeted(media) or is_banned(media):
         media, caption, details_link = requests.get_nasa_img(request_text)
         check_if_tweeted(media)
         
-    tweet_text = config.tweet_text + caption + details_link
+    tweet_text = (f'@{request_user} {config.tweet_text} {caption}. More Details >> {details_link}')
     t = status.Tweet(media, tweet_text, reply_id)
     tweet_id = t.post_to_twitter(api)
     log_line = logger.log_line(post_number, tweet_id, media, reply_id, request_user)
     logger.add_line(log_line, log)
+    print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}")
 
     
 def check_if_tweeted(media):
@@ -46,7 +46,6 @@ def check_if_tweeted(media):
     if not os.path.isfile(log):
         return False
     ##If log file does not exist then return false
-    
     try:
         with open(log, 'r') as log:
             already_tweeted = log.readlines()[readlineAmount:]
@@ -54,7 +53,7 @@ def check_if_tweeted(media):
         with open(log, 'r') as log:
             already_tweeted = log.readlines()
     for line in already_tweeted:
-        if line.split('\t')[2] == media:
+        if line.split('\t')[3] == media:
             return True
     return False
 
@@ -66,7 +65,7 @@ def get_post_number(log):
     try:
         with open(log, 'r') as log:
             post_number = (log.readlines()[-1]).split()[0]
-            return str(int(post_number + 1))
+            return str(int(post_number) + 1)
     except (IndexError, ValueError):
         return "1"
 

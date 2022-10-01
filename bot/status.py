@@ -15,6 +15,8 @@ class Tweet():
         except Exception as err:
             print(f'Failed to post: {err} - Media={self.media} Tweet={self.reply_id}')
             raise
+        finally:
+            os.remove(self.media)
         
         
 def delete_tweet_by_id(tweet_id, api):

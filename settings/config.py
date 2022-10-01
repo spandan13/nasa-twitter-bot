@@ -8,7 +8,7 @@ import ast
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-config = configparser.configparser()
+config = configparser.ConfigParser()
 config.read(dname + '/settings')
 
 api_config = config['ApiKeys']
@@ -16,12 +16,12 @@ twt_api_key = api_config['twt_api_key']
 twt_secret_key = api_config['twt_secret_key']
 twt_token = api_config['twt_token']
 twt_secret_token = api_config['twt_secret_token']
-twt_bearer_token = api_config['twt_bearer_token']
+#twt_bearer_token = api_config['twt_bearer_token']
 nasa_api_key = api_config['nasa_api_key']
 api_url = api_config['api_url']
 
 app_config = config['App']
-allow_repeat_after = app_config['allow_repeat_after']
+allow_repeat_after = int(app_config['allow_repeat_after'])
 log_file = app_config['log_file']
 bot_account = app_config['bot_account']
 master_account = app_config['master_account']
@@ -36,12 +36,12 @@ request_commands = orders_config['request_commands'].split('\n')
 time_tolerance = float(orders_config['time_tolerance'])
 
 text_config = config['Texts']
-tweet_text = text_config['tweet_text']
+tweet_text = ast.literal_eval(text_config['tweet_text'])
 extra_text = text_config['extra_text']
 
 
 #Nasa Api
-nasa = Client(nasa_api_key)
+#nasa = Client(nasa_api_key)
 
 #Twitter Api
 auth = tweepy.OAuthHandler(twt_api_key, twt_secret_key)

@@ -1,28 +1,29 @@
 import datetime
 import re
-from nasaapi import Client
+#from nasaapi import Client
 import requests
 import random
 import os
 
 
-def get_nasa_img(query, nasa, url, temp_download):
+def get_nasa_img(query, api_url, temp_download):
     """Should return media, caption and post link"""
+    url = (api_url + '&q=' + query)
     data = requests.get(url).json()['collection']['items']
     img = random.choice(data)['data'][0]
     caption = img['title']
     img_id = img['nasa_id']
     details = "https://images.nasa.gov/details-" + img_id
     media_link = "https://images-assets.nasa.gov/image/" + img_id + '/' + img_id
-    actual_link = get_img_link(media_link, img_id, temp_download)
+    media = get_img_link(media_link, img_id, temp_download)
     
-    return actual_link, caption, details
+    return media, caption, details
     
 def search_query(request_text, search_terms):
     if '#' in request_text:
         query = request_text.split('#')[1].split()[0]
     else:
-        query = None
+        query = random.choice(search_terms).replace(' ','%20')
     return query
 
 def get_img_link(media_link, id, temp):
@@ -33,7 +34,7 @@ def get_img_link(media_link, id, temp):
             for chunk in request:
                 image.write(chunk)
     else:
-        requests.get(url=(media_link+'~orig.jpg'), stream=True)
+        request = requests.get(url=(media_link+'~orig.jpg'), stream=True)
         with open(filename, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
@@ -44,7 +45,7 @@ def mentions(bot_account, api):
         using the twitter api"""
     mentions = []
     search_text = (bot_account + ' ' + '-filter:retweets' + ' ' + '-from:' + bot_account)
-    for tweet in api.search_tweets(q=search_text, result_type='recent', count=5, include_entities=False):
+    for tweet in api.search_tweets(q=search_text, result_type='recent', count=5, include_entities='false'):
         mentions.append(tweet)
     return mentions
 
@@ -61,8 +62,8 @@ def is_recent(tweet, time_in_minutes):
     """Return true if tweet is recent when compared
     to the time in minutes as per settings"""
     expiration_time = datetime.timedelta(minutes=time_in_minutes)
-    tweet_date = tweet.created_at
-    time_since_order = datetime.datetime.utcnow() - tweet_date
+    tweet_date = (tweet.created_at).replace(tzinfo=None)
+    time_since_order = datetime.datetime.now() - tweet_date
     return time_since_order < expiration_time
 
 def already_answered(tweet, log):
@@ -77,7 +78,7 @@ def already_answered(tweet, log):
 def is_img_request(tweet, bot_account, command):
     """Return True if mention start with the request_command."""
     str_mention = (" " + tweet.text.lower() + " ")
-    if re.search("\s" + command.lower() + "\S*\s+" + bot_account + "\s+.*?", str_mention):
+    if re.search("\s" + command.lower() + "\S*\s+" + bot_account.lower() + "\s+.*?", str_mention):
         return True
     else:
         return False
