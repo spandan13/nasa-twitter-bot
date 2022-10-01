@@ -96,7 +96,7 @@ def blocked(user_name, blocked_list):
     user = "@" + user_name
     with open(blocked_list, 'r') as blocked:
         for line in blocked:
-            if user == str(line.split('---')[0]):
+            if user == str(line.split()[0]):
                 return True
 
 

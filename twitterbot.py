@@ -22,11 +22,11 @@ def tweet_poster(reply_id, request_text, request_user, search_query):
     post_number = get_post_number(log)
 
     media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
-    check_if_tweeted(media)
+    check_if_tweeted(media, log)
 
-    while check_if_tweeted(media) or is_banned(media):
-        media, caption, details_link = requests.get_nasa_img(request_text)
-        check_if_tweeted(media)
+    while check_if_tweeted(media, log) or is_banned(media):
+        media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
+        check_if_tweeted(media, log)
         
     tweet_text = (f'@{request_user} \U0001F30C{config.tweet_text} {caption}.\n\U000027A1 More Details: {details_link}')
     t = status.Tweet(media, tweet_text, reply_id)
@@ -36,11 +36,10 @@ def tweet_poster(reply_id, request_text, request_user, search_query):
     print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}")
 
     
-def check_if_tweeted(media):
+def check_if_tweeted(media, log):
     """Checks if image pulled was already tweeted
     based on tolerance value in settings"""
 
-    log = config.log_file
     repeat_after = config.allow_repeat_after
     readlineAmount = -1*(repeat_after)
     if not os.path.isfile(log):
@@ -53,12 +52,21 @@ def check_if_tweeted(media):
         with open(log, 'r') as log:
             already_tweeted = log.readlines()
     for line in already_tweeted:
-        if line.split('\t')[3] == media:
+        if line.split('\t')[3] == media.split('/')[5]:
             return True
     return False
 
 def is_banned(media):
     """To be finished"""
+    ban_file = config.banned_twt
+    if not os.path.isfile(ban_file):
+        return False
+    ##If ban_file does not exist then return false
+    with open(ban_file, 'r') as banned:
+        banned_img = banned.readlines()
+    for line in banned_img:
+        if media.split('/')[5] == line.split()[0]:
+            return True
     return False
 
 def get_post_number(log):
@@ -91,7 +99,7 @@ def orders():
     """Handles orders given to bot via replies"""
     log = config.log_file
     time = config.time_tolerance
-    master = config.master_account
+    master = (config.master_account).lower()
     ban_command = config.ban_command
     api = config.api
     post_number = get_post_number(log)
@@ -107,10 +115,10 @@ def orders():
     for tweet in master_mentions:
         if requests.is_delete_order(tweet, ban_command):
             id_to_delete = tweet.in_reply_to_status_id
-            status.delete_tweet_by_id(tweet.in_reply_to_status_id)
+            status.delete_tweet_by_id(tweet.in_reply_to_status_id, api)
             banner.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
             logger.add_banned_to_log(post_number, tweet.id, config.log_file)
-            
+            print("IMAGE BANNED" + str(tweet.id))
             
 def main():
     """Runs the entire program with all functions"""
