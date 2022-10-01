@@ -26,7 +26,7 @@ search_terms = ['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranu
 
 [Orders]
 #caps agnostic
-ban_command = #ignorethis
+ban_command = #ignorethisresult
 request_commands = hey
                   hi
                   hello

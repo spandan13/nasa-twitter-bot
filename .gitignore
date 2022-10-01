@@ -1,5 +1,9 @@
 Notes.txt
 *.jpg
-Tests/*
+Tests/
 __pycache__
 logs/log
+logs/banned
+settings/blocked
+temp_downloads/
+

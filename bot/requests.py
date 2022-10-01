@@ -21,7 +21,7 @@ def get_nasa_img(query, api_url, temp_download):
     
 def search_query(request_text, search_terms):
     if '#' in request_text:
-        query = request_text.split('#')[1].split()[0]
+        query = (request_text.split('#')[1].split()[0]).replace('_', '%20')
     else:
         query = random.choice(search_terms).replace(' ','%20')
     return query
@@ -104,4 +104,4 @@ def is_delete_order(tweet, ban_command):
     """Returns true if request is a delete command"""
     mention = tweet.text.lower()
     ban_command = ban_command.lower()
-    return mention.startswith(ban_command)
+    return ban_command in mention
