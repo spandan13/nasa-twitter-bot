@@ -1,6 +1,5 @@
 import datetime
 import re
-#from nasaapi import Client
 import requests
 import random
 import os

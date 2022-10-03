@@ -7,7 +7,6 @@ from logs import logger
 from logs import banner
 import datetime
 import random
-import argparse
 import sys
 import os
 
@@ -24,14 +23,14 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
 
     if apod == True:
         media, caption, details_link = requests.get_apod(config.nasa_api_key, search_query, config.temp_downloads)
-        tweet_text = (f"@{request_user} \U0001F30C Astronomy Picture of the Day for {search_query}: {caption}.\n\U000027A1 More Details: {details_link}")
+        tweet_text = (f"@{request_user} \U0001F30C #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
     else:
         media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
         check_if_tweeted(media, log)
         while check_if_tweeted(media, log) or is_banned(media):
             media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
             check_if_tweeted(media, log)
-        tweet_text = (f'@{request_user} \U0001F30C{config.tweet_text} {caption}.\n\U000027A1 More Details: {details_link}')
+        tweet_text = (f'@{request_user} \U0001F30C{config.tweet_text} {caption}. #NASA #SPACE\n\U000027A1 More Details: {details_link}')
     
     t = status.Tweet(media, tweet_text, reply_id)
     tweet_id = t.post_to_twitter(api)
@@ -154,7 +153,7 @@ def daily_apod():
     post_number = get_post_number(log)
     if time_now == config.apod_time and not requests.apod_posted(log, date):
         media, caption, details = requests.get_apod(config.nasa_api_key, date, config.temp_downloads)
-        tweet_text = (f"\U0001F30C Astronomy Picture of the Day: {caption}.\n\U000027A1 More Details: {details}")
+        tweet_text = (f"\U0001F30C #Astronomy Picture of the Day: {caption}. #APOD #NASA\n\U000027A1 More Details: {details}")
         t = status.Tweet(media, tweet_text, reply_id=None)
         tweet_id = t.post_to_twitter(api=config.api)
         log_line = logger.log_line(post_number, tweet_id, media, reply_id=None, request_user='APOD')
