@@ -22,6 +22,7 @@ api_url = api_config['api_url']
 
 app_config = config['App']
 allow_repeat_after = int(app_config['allow_repeat_after'])
+apod_time = app_config['apod_time']
 log_file = app_config['log_file']
 bot_account = app_config['bot_account']
 master_account = app_config['master_account']

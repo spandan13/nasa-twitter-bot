@@ -5,6 +5,7 @@ from bot import status
 from bot import requests
 from logs import logger
 from logs import banner
+import datetime
 import random
 import argparse
 import sys
@@ -119,13 +120,27 @@ def orders():
             banner.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
             logger.add_banned_to_log(post_number, tweet.id, config.log_file)
             print("IMAGE BANNED" + str(tweet.id))
-            
+
+def daily_apod():
+    time_now = datetime.datetime.now().strftime("%H:%M")
+    date = str(datetime.date.today())
+    log = config.log_file
+    post_number = get_post_number(log)
+    if time_now == config.apod_time and not requests.apod_posted(log, date):
+        media, caption, details = requests.get_apod(config.nasa_api_key, date, config.temp_downloads)
+        tweet_text = (f"\U0001F30C Astronomy Picture of the Day: {caption}.\n\U000027A1 More Details: {details}")
+        t = status.Tweet(media, tweet_text, reply_id=None)
+        tweet_id = t.post_to_twitter(api=config.api)
+        log_line = logger.log_line(post_number, tweet_id, media, reply_id=None, request_user='APOD')
+        logger.add_line(log_line, log)
+        print(f"APOD Posted | {str(media.split('/')[5])} | {str(tweet_id)}")
+
 def main():
     """Runs the entire program with all functions"""
 
     orders()
 
-    ##Daily tweet function to be added here later
-    
+    daily_apod()
+
 if __name__ == "__main__":
     main()
