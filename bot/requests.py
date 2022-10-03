@@ -105,6 +105,7 @@ def is_img_request(tweet, bot_account, command):
         return True
     else:
         return False
+    
 
 def master_mentions(mentions, log, master):
     "All the mentions to the bot from the master account"
