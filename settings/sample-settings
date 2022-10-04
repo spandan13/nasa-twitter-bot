@@ -11,12 +11,16 @@ api_url = https://images-api.nasa.gov/search?media_type=image
 
 [App]
 allow_repeat_after = 
+#apod_time is in "HH:MM" 24hr Format UTC
+apod_time = 
 log_file = 
 bot_account = 
 master_account = 
 banned_twt = 
 blocked = 
 temp_downloads = 
+#search_terms should include terms which should be used when searching for a random image.
+#Use ['None'] for completly random results
 search_terms = []
 
 [Orders]

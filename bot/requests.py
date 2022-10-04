@@ -1,6 +1,5 @@
 import datetime
 import re
-#from nasaapi import Client
 import requests
 import random
 import os
@@ -15,7 +14,7 @@ def get_nasa_img(query, api_url, temp_download):
     img_id = img['nasa_id']
     details = "https://images.nasa.gov/details-" + img_id
     media_link = "https://images-assets.nasa.gov/image/" + img_id + '/' + img_id
-    media = get_img_link(media_link, img_id, temp_download)
+    media = get_img_file(media_link, img_id, temp_download)
     
     return media, caption, details
     
@@ -26,18 +25,41 @@ def search_query(request_text, search_terms):
         query = random.choice(search_terms).replace(' ','%20')
     return query
 
-def get_img_link(media_link, id, temp):
+def get_apod(api_key, date, temp_download):
+    apod_url = (f"https://api.nasa.gov/planetary/apod?api_key={api_key}&")
+    apod = requests.get(f'{apod_url}date={date}').json()
+    media_link = apod['url']
+    caption = apod['title']
+    details = (f"https://apod.nasa.gov/apod/ap{date[2:].replace('-','')}.html")
+    media = get_img_file(media_link, date, temp_download, apod=True)
+    return media, caption, details
+
+def apod_posted(log, date):
+    with open(log,'r') as log_file:
+        for line in log_file.readlines():
+            if "@APOD" in line and line.split('\t')[2].split()[0] == date:
+                return True
+        else:
+            return False
+
+def get_img_file(media_link, id, temp, apod=False):
     filename = temp + id + '.jpg'
-    request = requests.get(url=(media_link+'~large.jpg'), stream=True)
-    if request.status_code == 200:
+    if apod:
+        request = requests.get(url=(media_link), stream=True)
         with open(filename, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
     else:
-        request = requests.get(url=(media_link+'~orig.jpg'), stream=True)
-        with open(filename, 'wb') as image:
-            for chunk in request:
-                image.write(chunk)
+        request = requests.get(url=(media_link+'~large.jpg'), stream=True)
+        if request.status_code == 200:
+            with open(filename, 'wb') as image:
+                for chunk in request:
+                    image.write(chunk)
+        else:
+            request = requests.get(url=(media_link+'~orig.jpg'), stream=True)
+            with open(filename, 'wb') as image:
+                for chunk in request:
+                    image.write(chunk)
     return filename
 
 def mentions(bot_account, api):
@@ -82,6 +104,7 @@ def is_img_request(tweet, bot_account, command):
         return True
     else:
         return False
+    
 
 def master_mentions(mentions, log, master):
     "All the mentions to the bot from the master account"
