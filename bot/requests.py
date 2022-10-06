@@ -29,6 +29,8 @@ def get_apod(api_key, date, temp_download):
     apod_url = (f"https://api.nasa.gov/planetary/apod?api_key={api_key}&")
     apod = requests.get(f'{apod_url}date={date}').json()
     media_link = apod['url']
+    if 'youtube' in media_link:
+        media_link = (f"https://img.youtube.com/vi/{media_link.split('/')[-1].split('?')[0]}/maxresdefault.jpg")
     caption = apod['title']
     details = (f"https://apod.nasa.gov/apod/ap{date[2:].replace('-','')}.html")
     media = get_img_file(media_link, date, temp_download, apod=True)
