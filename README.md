@@ -53,9 +53,9 @@
 
 - *Requirements:*
     * python3
-    * tweepy
-    * requests
-    * Twitter developer account
+    * tweepy `pip install tweepy`
+    * requests `pip install requests`
+    * <a href="https://developer.twitter.com/en/portal/petition/essential/basic-info" target="_blank">Twitter developer account</a>
 
 - *Files setup:*
     * Rename all `sample-filename` files to `filename`
