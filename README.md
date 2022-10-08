@@ -10,7 +10,7 @@
 <h4 align="center">A Twitter bot using the <a href="https://api.nasa.gov/" target="_blank">NASA API</a></h4>
 
 <p align="center">
-  <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot">
+  <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">
     <img src="https://img.shields.io/badge/Try Now-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"
          alt="Twitter">
   </a>
@@ -43,9 +43,9 @@
 ---
 ## **How To Use :**
 
-* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot">"Hey @TheNasaBot"</a> for a random image pulled from NASA's Image Library
-* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20#Mars">"Hey @TheNasaBot #keyword"</a> to get am image matching the keyword - eg. #Jupiter
-* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20send%20APOD%20for%20#2020-03-15">"Hey @TheNasaBot send APOD for #YYYY-MM-DD"</a> to get NASA's Astronomy Picture of the Day for the specified date - eg. #2021-02-10
+* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">"Hey @TheNasaBot"</a> for a random image pulled from NASA's Image Library
+* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20#Mars" target="_blank">"Hey @TheNasaBot #keyword"</a> to get am image matching the keyword - eg. #Jupiter
+* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20send%20APOD%20for%20#2020-03-15" target="_blank">"Hey @TheNasaBot send APOD for #YYYY-MM-DD"</a> to get NASA's Astronomy Picture of the Day for the specified date - eg. #2021-02-10
 
 ---
 
@@ -65,7 +65,7 @@
     <br> Eg. `* * * * * python3 /path/to/bot/twitterbot.py`
 
 - *Monitoring:*
-    * You can use a service like <a href="https://cronitor.io/">Cronitor</a> to monitor the bot and get notified in case of any errors.
+    * You can use a service like <a href="https://cronitor.io/" target="_blank">Cronitor</a> to monitor the bot and get notified in case of any errors.
 
 ### *Settings file config:*
 
@@ -73,7 +73,7 @@
 - `twt_secret_key` - Twitter consumer key secret
 - `twt_token` - Twitter access key
 - `twt_secret_token` - Twitter access key secret
-- `nasa_api_key` - NASA API key (Get it <a href="https://api.nasa.gov/">here.</a>)
+- `nasa_api_key` - NASA API key (Get it <a href="https://api.nasa.gov/" target="_blank">here.</a>)
 - `allow_repeat_after` - After how many images the bot is allowed to repeat an image
 - `apod_time` - Time in HH:MM format (24 hours) when the bot should post the daily APOD
 - `bot_account` - @Username of the bot account
@@ -95,12 +95,12 @@
 
 ---
 ## Contact
-<a href="https://spandanathaide.in">
+<a href="https://spandanathaide.in" target="_blank">
     <img src="https://img.shields.io/badge/MY%20WEBSITE-spandanathaide.in-green?style=for-the-badge&logo=googlechrome&logoColor=white"
          alt="my website">
   </a>
 <br>
-<a href="https://twitter.com/SpandanAthaide">
+<a href="https://twitter.com/SpandanAthaide" target="_blank">
     <img src="https://img.shields.io/badge/TWITTER-@SpandanAthaide-blue?style=for-the-badge&logo=twitter&logoColor=white"
          alt="Twitter">
   </a>
