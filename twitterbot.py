@@ -23,7 +23,7 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
 
     if apod == True:
         media, caption, details_link = requests.get_apod(config.nasa_api_key, search_query, config.temp_downloads)
-        tweet_text = (f"@{request_user} \U0001F30C #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
+        tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
     else:
         media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
         check_if_tweeted(media, log)

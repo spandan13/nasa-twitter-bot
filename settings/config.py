@@ -1,4 +1,3 @@
-from multiprocessing.connection import Client
 import os
 import configparser
 import tweepy
@@ -16,7 +15,6 @@ twt_api_key = api_config['twt_api_key']
 twt_secret_key = api_config['twt_secret_key']
 twt_token = api_config['twt_token']
 twt_secret_token = api_config['twt_secret_token']
-#twt_bearer_token = api_config['twt_bearer_token']
 nasa_api_key = api_config['nasa_api_key']
 api_url = api_config['api_url']
 
@@ -38,7 +36,6 @@ time_tolerance = float(orders_config['time_tolerance'])
 
 text_config = config['Texts']
 tweet_text = text_config['tweet_text']
-extra_text = text_config['extra_text']
 
 
 #Nasa Api

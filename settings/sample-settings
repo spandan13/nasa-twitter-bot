@@ -1,38 +1,38 @@
-# Replace where appropriate with your own settings!
+# Replace with your own settings!
+#Check README.md for details
 
 [ApiKeys]
-twt_api_key = 
-twt_secret_key = 
-twt_token = 
-twt_secret_token = 
-twt_bearer_token = 
-nasa_api_key = 
+twt_api_key = xxxxxxxxxxxxx
+twt_secret_key = xxxxxxxxxxxxx
+twt_token = xxxxxxxxxxxxxxx
+twt_secret_token = xxxxxxxxxxxx
+nasa_api_key = xxxxxxxxxxxxx
 api_url = https://images-api.nasa.gov/search?media_type=image
 
 [App]
-allow_repeat_after = 
+allow_repeat_after = 50
 #apod_time is in "HH:MM" 24hr Format UTC
-apod_time = 
-log_file = 
-bot_account = 
-master_account = 
-banned_twt = 
-blocked = 
-temp_downloads = 
+apod_time = 05:00
+log_file = /path/to/bot/logs/log
+bot_account = @Bot_Username
+master_account = @Master_Username
+banned_twt = /path/to/bot/logs/banned
+blocked = /path/to/bot/settings/blocked
+temp_downloads = /path/to/bot/temp_downloads
 #search_terms should include terms which should be used when searching for a random image.
 #Use ['None'] for completly random results
-search_terms = []
+search_terms = ['Mars', 'Milky Way', 'Andromeda']
 
 [Orders]
 #caps agnostic
-ban_command = 
+ban_command = #deletethis
 
 #You can have multiple request commands
 #Just add each on a new line
-request_commands = 
-time_tolerance = 
+request_commands = hey
+                   hi
+                   hello
+time_tolerance = 30
 
 [Texts]
-# Respect indentation: it is TWO spaces
 tweet_text =  
-extra_text = 
