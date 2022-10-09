@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">
-    <img src="https://img.shields.io/badge/Try Now-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"
+    <img src="https://img.shields.io/badge/Try Now-@TheNasaBot-1DA1F2?style=for-the-badge&logo=twitter"
          alt="Twitter">
   </a>
 </p>
@@ -40,6 +40,12 @@
 - Supports banning images
 - Supports blocking specific users.
 - All config done using separete settings file.
+
+<a href="https://twitter.com/intent/user?screen_name=TheNasaBot">
+    <img src="https://img.shields.io/badge/Follow-@TheNasaBot-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"
+         alt="Twitter">
+  </a>
+
 ---
 ## **How To Use :**
 
