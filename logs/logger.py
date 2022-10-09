@@ -3,7 +3,7 @@ import datetime
 
 def log_line(post_number, tweet_id, media, reply_id, request_user):
     """Returns a string fit for the log from a post_number, tweet_id,
-    img_path and reply_id.
+    media, reply_id and request_user.
     """
     date = str(datetime.datetime.now())
     log_line = post_number + '\t'

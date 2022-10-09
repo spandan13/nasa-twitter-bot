@@ -9,6 +9,7 @@ class Tweet():
         self.reply_id = reply_id
         
     def post_to_twitter(self, api):
+        """Sends media and details to twitter"""
         try:
             status = api.update_status_with_media(filename=self.media, status=self.text, in_reply_to_status_id=self.reply_id)
             return status.id

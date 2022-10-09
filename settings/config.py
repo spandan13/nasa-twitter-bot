@@ -16,7 +16,6 @@ twt_secret_key = api_config['twt_secret_key']
 twt_token = api_config['twt_token']
 twt_secret_token = api_config['twt_secret_token']
 nasa_api_key = api_config['nasa_api_key']
-api_url = api_config['api_url']
 
 app_config = config['App']
 allow_repeat_after = int(app_config['allow_repeat_after'])
@@ -37,23 +36,7 @@ time_tolerance = float(orders_config['time_tolerance'])
 text_config = config['Texts']
 tweet_text = text_config['tweet_text']
 
-
-#Nasa Api
-#nasa = Client(nasa_api_key)
-
 #Twitter Api
 auth = tweepy.OAuthHandler(twt_api_key, twt_secret_key)
 auth.set_access_token(twt_token, twt_secret_token)
 api = tweepy.API(auth)
-
-"""
-TwitterApi v2 Auth
-
-client = tweepy.Client(
-    bearer_token=twt_bearer_token,
-    consumer_key=twt_api_key,
-    consumer_secret=twt_secret_key,
-    access_token=twt_token,
-    access_token_secret=twt_secret_token
-)
-"""

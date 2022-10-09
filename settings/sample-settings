@@ -7,7 +7,6 @@ twt_secret_key = xxxxxxxxxxxxx
 twt_token = xxxxxxxxxxxxxxx
 twt_secret_token = xxxxxxxxxxxx
 nasa_api_key = xxxxxxxxxxxxx
-api_url = https://images-api.nasa.gov/search?media_type=image
 
 [App]
 allow_repeat_after = 50
@@ -24,7 +23,6 @@ temp_downloads = /path/to/bot/temp_downloads
 search_terms = ['Mars', 'Milky Way', 'Andromeda']
 
 [Orders]
-#caps agnostic
 ban_command = #deletethis
 
 #You can have multiple request commands
@@ -35,4 +33,5 @@ request_commands = hey
 time_tolerance = 30
 
 [Texts]
+#Optional
 tweet_text =  

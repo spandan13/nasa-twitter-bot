@@ -6,41 +6,35 @@ from bot import requests
 from logs import logger
 from logs import banner
 import datetime
-import random
-import sys
 import os
 
 """The main module that connects all modules together"""
 
 def tweet_poster(reply_id, request_text, request_user, search_query, apod=False):
-    """This function retrives image using nasa api and sends it to tweet poster modules"""
+    """This function retrives image using nasa api and sends it to tweet poster module"""
 
     log = config.log_file
-    repeat_after = config.allow_repeat_after
     api = config.api
-    #nasa_api = config.nasa
     post_number = get_post_number(log)
 
-    if apod == True:
+    if apod == True: #For APOD requests
         media, caption, details_link = requests.get_apod(config.nasa_api_key, search_query, config.temp_downloads)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
-    else:
-        media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
-        check_if_tweeted(media, log)
+    else: #For simple requests
+        media, caption, details_link = requests.get_nasa_img(search_query, config.temp_downloads)
         while check_if_tweeted(media, log) or is_banned(media):
-            media, caption, details_link = requests.get_nasa_img(search_query, config.api_url, config.temp_downloads)
-            check_if_tweeted(media, log)
+            media, caption, details_link = requests.get_nasa_img(search_query, config.temp_downloads)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} {caption}. #{search_query.capitalize().replace(' ','').replace('%20','')} #Space #NASA\n\U000027A1 More Details: {details_link}")
     
     t = status.Tweet(media, tweet_text, reply_id)
-    tweet_id = t.post_to_twitter(api)
+    tweet_id = t.post_to_twitter(api) #Posts tweet using twitter API
     log_line = logger.log_line(post_number, tweet_id, media, reply_id, request_user)
     logger.add_line(log_line, log)
-    print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}")
+    print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}") #Prints tweet details to screen. Comment if not needed
 
     
 def check_if_tweeted(media, log):
-    """Checks if image pulled was already tweeted
+    """Checks if media pulled was already tweeted
     based on tolerance value in settings"""
 
     repeat_after = config.allow_repeat_after
@@ -60,11 +54,11 @@ def check_if_tweeted(media, log):
     return False
 
 def is_banned(media):
-    """To be finished"""
+    """Checks if pulled media is banned"""
     ban_file = config.banned_twt
+    #If ban_file does not exist then return false
     if not os.path.isfile(ban_file):
         return False
-    ##If ban_file does not exist then return false
     with open(ban_file, 'r') as banned:
         banned_img = banned.readlines()
     for line in banned_img:
@@ -73,6 +67,7 @@ def is_banned(media):
     return False
 
 def get_post_number(log):
+    """Gets post number using logfile if present or 1"""
     try:
         with open(log, 'r') as log:
             post_number = (log.readlines()[-1]).split()[0]
@@ -81,43 +76,45 @@ def get_post_number(log):
         return "1"
 
 def respond_to_request(request_tweet):
-    """Parse necessary information from request tweet
-    needed to post a reply to it"""
+    """Gets information necessary to respond to simple requests.
+    Sends it forward to tweet_poster function"""
     post_number = get_post_number(config.log_file)
     request_text = request_tweet.text.lower()
     reply_id = request_tweet.id
     user_name = request_tweet.user.screen_name
     search_query = requests.search_query(request_text, config.search_terms)
     if requests.blocked(user_name, config.blocked):
-        tweet_id = "Ignored:Blocked"
+        tweet_id = "Ignored:Blocked" #This was done to get info in logfile
         media = "No media posted"
         log_line = logger.log_line(post_number, tweet_id, media, reply_id, user_name)
         logger.add_line(log_line, config.log_file)
-        print("Ignored:Blocked | @" + str(user_name) + " | " + str(request_text))
+        print("Ignored:Blocked | @" + str(user_name) + " | " + str(request_text)) #Prints details to screen. Comment if not needed.
     else:
         return tweet_poster(reply_id, request_text, user_name, search_query)
     
 def respond_to_apod(request_tweet):
+    """Gets information necessary to respond to APOD requests.
+    Sends it forward to tweet_poster function"""
     post_number = get_post_number(config.log_file)
-    request_text = t=request_tweet.text.lower()
+    request_text = request_tweet.text.lower()
     reply_id = request_tweet.id
     user_name = request_tweet.user.screen_name
     try:
-        search_date = request_text.split('#')[1].split()[0]
+        search_date = request_text.split('#')[1].split()[0] #Gets APOD date mentioned in tweet
     except IndexError:
         search_date = str(datetime.date.today())
     if requests.blocked(user_name, config.blocked):
-        tweet_id = "Ignored:Blocked"
+        tweet_id = "Ignored:Blocked" #This was done to get info in logfile
         media = "No media posted"
         log_line = logger.log_line(post_number, tweet_id, media, reply_id, user_name)
         logger.add_line(log_line, config.log_file)
-        print("Ignored:Blocked | @" + str(user_name) + " | " + str(request_text))
+        print("Ignored:Blocked | @" + str(user_name) + " | " + str(request_text)) #Prints details to screen. Comment if not needed.
     else:
         return tweet_poster(reply_id, request_text, user_name, search_date, apod=True)
     
     
 def orders():
-    """Handles orders given to bot via replies"""
+    """Handles orders and requests given to bot"""
     log = config.log_file
     time = config.time_tolerance
     master = (config.master_account).lower()
@@ -134,17 +131,18 @@ def orders():
                 if "apod" in tweet.text.lower(): #Checks if it is APOD request
                     respond_to_apod(tweet)
                 else:
-                    respond_to_request(tweet)
+                    respond_to_request(tweet) #Else it is simple request
     
     for tweet in master_mentions:
         if requests.is_delete_order(tweet, ban_command):
             id_to_delete = tweet.in_reply_to_status_id
             status.delete_tweet_by_id(tweet.in_reply_to_status_id, api)
-            banner.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
+            requests.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
             logger.add_banned_to_log(post_number, tweet.id, config.log_file)
             print("IMAGE BANNED" + str(tweet.id))
 
 def daily_apod():
+    """Posts daily APOD at time set in settings"""
     time_now = datetime.datetime.now().strftime("%H:%M")
     date = datetime.date.today()
     log = config.log_file
@@ -161,9 +159,9 @@ def daily_apod():
 def main():
     """Runs the entire program with all functions"""
 
-    orders()
-
-    daily_apod()
+    daily_apod() #First checks if it is time to post APOD
+    
+    orders() #Then checks for requests and posts replies
 
 if __name__ == "__main__":
     main()
