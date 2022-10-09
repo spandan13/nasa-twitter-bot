@@ -4,7 +4,6 @@ from settings import config
 from bot import status
 from bot import requests
 from logs import logger
-from logs import banner
 import datetime
 import os
 
