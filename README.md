@@ -25,7 +25,7 @@
 </p>
 
 <p align="center">
-  <a href="https://twitter.com/TheNasaBot">
+  <a href="https://i.imgur.com/9q5j8wd.jpg">
     <img src="https://i.imgur.com/9q5j8wd.jpg">
 </a>
 
