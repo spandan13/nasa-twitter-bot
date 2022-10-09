@@ -17,11 +17,11 @@
 </p>
 
 <p align="center">
-  <a href="#about">About</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#set-up">Set-Up</a> •
-  <a href="#related">Related</a> •
-  <a href="#contact">Contact</a>
+  <a href="#about-">About</a> •
+  <a href="#how-to-use-">How To Use</a> •
+  <a href="#set-up-">Set-Up</a> •
+  <a href="#related-">Related</a> •
+  <a href="#contact-">Contact</a>
 </p>
 
 <p align="center">
