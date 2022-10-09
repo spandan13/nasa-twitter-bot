@@ -45,7 +45,7 @@
 
 * Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">"Hey @TheNasaBot"</a> for a random image pulled from NASA's Image Library
 * Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20#Mars" target="_blank">"Hey @TheNasaBot #keyword"</a> to get am image matching the keyword - eg. #Jupiter
-* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20send%20APOD%20for%20#2020-03-15" target="_blank">"Hey @TheNasaBot send APOD for #YYYY-MM-DD"</a> to get NASA's Astronomy Picture of the Day for the specified date - eg. #2021-02-10
+* Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20send%20APOD%20for%20%23YYYY-MM-DD" target="_blank">"Hey @TheNasaBot send APOD for #YYYY-MM-DD"</a> to get NASA's Astronomy Picture of the Day for the specified date - eg. #2021-02-10
 
 ---
 
