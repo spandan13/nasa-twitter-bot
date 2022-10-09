@@ -32,7 +32,7 @@
 </p>
 
 ---
-## **About :**
+## About :
 ### A twitter bot that replies to requests with random images from NASA's Image Gallery fetched using NASA's Open API. It also posts daily NASA's Astronomy Picture of the Day(APOD). You can also request the bot for APOD of a specific date and it will respond accordingly.
 
 ### *Some Features:*
@@ -41,7 +41,7 @@
 - Supports blocking specific users.
 - All config done using separete settings file.
 ---
-## **How To Use :**
+## How To Use :
 
 * Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">"Hey @TheNasaBot"</a> for a random image pulled from NASA's Image Library
 * Tweet <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot%20#Mars" target="_blank">"Hey @TheNasaBot #keyword"</a> to get am image matching the keyword - eg. #Jupiter
@@ -49,7 +49,7 @@
 
 ---
 
-## **Set Up :**
+## Set Up :
 
 - *Requirements:*
     * python3
@@ -87,14 +87,14 @@
 
 ---
 
-## Related
+## Related :
 - [twitterImgBot](https://github.com/joaquinlpereyra/twitterImgBot) - Source for twitter bot components
 - [Twitter Developer Account](https://developer.twitter.com/en/portal/petition/essential/basic-info)
 - [tweepy-docs](https://docs.tweepy.org/en/stable/)
 - [NASA API Details](https://api.nasa.gov/#browseAPI)
 
 ---
-## Contact
+## Contact :
 <a href="https://spandanathaide.in" target="_blank">
     <img src="https://img.shields.io/badge/MY%20WEBSITE-spandanathaide.in-green?style=for-the-badge&logo=googlechrome&logoColor=white"
          alt="my website">
