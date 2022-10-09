@@ -10,14 +10,18 @@ nasa_api_key = xxxxxxxxxxxxx
 
 [App]
 allow_repeat_after = 50
+
 #apod_time is in "HH:MM" 24hr Format UTC
 apod_time = 05:00
 log_file = /path/to/bot/logs/log
 bot_account = @Bot_Username
 master_account = @Master_Username
 banned_twt = /path/to/bot/logs/banned
+
+#Manually add username to blocked file
 blocked = /path/to/bot/settings/blocked
 temp_downloads = /path/to/bot/temp_downloads
+
 #search_terms should include terms which should be used when searching for a random image.
 #Use ['None'] for completly random results
 search_terms = ['Mars', 'Milky Way', 'Andromeda']

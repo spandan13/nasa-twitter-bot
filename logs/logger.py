@@ -9,7 +9,7 @@ def log_line(post_number, tweet_id, media, reply_id, request_user):
     log_line = post_number + '\t'
     log_line += str(tweet_id) + '\t'
     log_line += date + '\t'
-    log_line += media.split('/')[5] + '\t'
+    log_line += media + '\t'
     log_line += '@' + str(request_user) + '\t'
     log_line += str(reply_id) + '\n'
     return log_line

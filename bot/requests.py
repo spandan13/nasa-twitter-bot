@@ -115,7 +115,7 @@ def master_mentions(mentions, log, master):
     "All the mentions to the bot from the master account"
     master_mentions = []
     for tweet in mentions:
-        if ('@' + tweet.user.screen_name) == master and not already_answered(tweet, log):
+        if ('@' + tweet.user.screen_name).lower() == master and not already_answered(tweet, log):
             master_mentions.append(tweet)
     return master_mentions
 

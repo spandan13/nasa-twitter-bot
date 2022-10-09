@@ -27,7 +27,7 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
     
     t = status.Tweet(media, tweet_text, reply_id)
     tweet_id = t.post_to_twitter(api) #Posts tweet using twitter API
-    log_line = logger.log_line(post_number, tweet_id, media, reply_id, request_user)
+    log_line = logger.log_line(post_number, tweet_id, media.split('/')[5], reply_id, request_user)
     logger.add_line(log_line, log)
     print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}") #Prints tweet details to screen. Comment if not needed
 
@@ -138,7 +138,7 @@ def orders():
             status.delete_tweet_by_id(tweet.in_reply_to_status_id, api)
             requests.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
             logger.add_banned_to_log(post_number, tweet.id, config.log_file)
-            print("IMAGE BANNED" + str(tweet.id))
+            print("IMAGE BANNED: " + str(tweet.id))
 
 def daily_apod():
     """Posts daily APOD at time set in settings"""
@@ -151,7 +151,7 @@ def daily_apod():
         tweet_text = (f"\U0001F30C #Astronomy Picture of the Day - {date.strftime('%B %d %Y')}: {caption}. #APOD #NASA\n\U000027A1 More Details: {details}")
         t = status.Tweet(media, tweet_text, reply_id=None)
         tweet_id = t.post_to_twitter(api=config.api)
-        log_line = logger.log_line(post_number, tweet_id, media, reply_id=None, request_user='APOD')
+        log_line = logger.log_line(post_number, tweet_id, media.split('/')[5], reply_id=None, request_user='APOD')
         logger.add_line(log_line, log)
         print(f"APOD Posted | {str(media.split('/')[5])} | {str(tweet_id)}")
 
