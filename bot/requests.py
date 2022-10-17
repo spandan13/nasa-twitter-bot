@@ -33,9 +33,10 @@ def get_apod(api_key, date, temp_download):
     media_link = apod['url']
     if 'youtube' in media_link: #If APOD is a youtube video, post thumbnail
         media_link = (f"https://img.youtube.com/vi/{media_link.split('/')[-1].split('?')[0]}/maxresdefault.jpg")
+    file_ext = media_link.split('.')[-1]
     caption = apod['title']
     details = (f"https://apod.nasa.gov/apod/ap{date[2:].replace('-','')}.html")
-    media = get_img_file(media_link, date, temp_download, apod=True)
+    media = get_img_file(media_link, date, temp_download, file_ext, apod=True)
     return media, caption, details
 
 def apod_posted(log, date):
@@ -47,15 +48,15 @@ def apod_posted(log, date):
         else:
             return False
 
-def get_img_file(media_link, id, temp, apod=False):
+def get_img_file(media_link, id, temp, file_ext="jpg", apod=False):
     """Downloads media to temporary folder"""
-    filename = temp + id + '.jpg'
-    if apod:
+    filename = (f'{temp}{id}.{file_ext}')
+    if apod: # For apod requests
         request = requests.get(url=(media_link), stream=True)
         with open(filename, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
-    else:
+    else: # For normal requests
         request = requests.get(url=(media_link+'~large.jpg'), stream=True) #First tries to download 'large' quality
         if request.status_code == 200:
             with open(filename, 'wb') as image:
