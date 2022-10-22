@@ -10,6 +10,11 @@
 <h4 align="center">A Twitter bot using the <a href="https://api.nasa.gov/" target="_blank">NASA API</a></h4>
 
 <p align="center">
+  <a href="https://thenasabot.cronitorstatus.com/" target="_blank">
+    <img src="https://cronitor.io/badges/LjcGS1/production/0M1loyn4syvdYQaBBnVk7BEYAkI.svg"
+         alt="my website">
+  </a>
+  <br>
   <a href="https://twitter.com/intent/tweet?text=Hey%20@TheNasaBot" target="_blank">
     <img src="https://img.shields.io/badge/Try Now-@TheNasaBot-1DA1F2?style=for-the-badge&logo=twitter"
          alt="Twitter">
