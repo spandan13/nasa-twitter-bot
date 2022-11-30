@@ -48,10 +48,10 @@ def apod_posted(log, date):
         else:
             return False
 
-def get_img_file(media_link, id, temp, file_ext="jpg", apod=False):
+def get_img_file(media_link, id, temp, file_ext="jpg", apod=False, news=False):
     """Downloads media to temporary folder"""
     filename = (f'{temp}{id}.{file_ext}')
-    if apod: # For apod requests
+    if apod or news: # For apod requests
         request = requests.get(url=(media_link), stream=True)
         with open(filename, 'wb') as image:
             for chunk in request:
