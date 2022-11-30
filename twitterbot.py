@@ -15,14 +15,15 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
     log = config.log_file
     api = config.api
     post_number = get_post_number(log)
+    search_terms = config.search_terms
 
     if apod == True: #For APOD requests
         media, caption, details_link = requests.get_apod(config.nasa_api_key, search_query, config.temp_downloads)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
     else: #For simple requests
-        media, caption, details_link = requests.get_nasa_img(search_query, config.temp_downloads)
+        media, caption, details_link, search_query = requests.get_nasa_img(search_query, config.temp_downloads, search_terms)
         while check_if_tweeted(media, log) or is_banned(media):
-            media, caption, details_link = requests.get_nasa_img(search_query, config.temp_downloads)
+            media, caption, details_link, search_query = requests.get_nasa_img(search_query, config.temp_downloads, search_terms)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} {caption}. #{search_query.capitalize().replace(' ','').replace('%20','')} #Space #NASA\n\U000027A1 More Details: {details_link}")
     
     t = status.Tweet(media, tweet_text, reply_id)

@@ -4,18 +4,24 @@ import requests
 import random
 
 
-def get_nasa_img(query, temp_download):
+def get_nasa_img(query, temp_download, search_terms):
     """Pulls media, caption and details for
     random image from given query using NASA API"""
-    url = (f'https://images-api.nasa.gov/search?media_type=image&q={query}')
-    data = requests.get(url).json()['collection']['items']
-    img = random.choice(data)['data'][0]
+    try:
+        url = (f'https://images-api.nasa.gov/search?media_type=image&q={query}')
+        data = requests.get(url).json()['collection']['items']
+        img = random.choice(data)['data'][0]
+    except IndexError:
+        query = random.choice(search_terms).replace(' ','%20')
+        url = (f'https://images-api.nasa.gov/search?media_type=image&q={query}')
+        data = requests.get(url).json()['collection']['items']
+        img = random.choice(data)['data'][0]
     caption = img['title']
     img_id = img['nasa_id']
     details = "https://images.nasa.gov/details-" + img_id
     media_link = "https://images-assets.nasa.gov/image/" + img_id + '/' + img_id
     media = get_img_file(media_link, img_id, temp_download)
-    return media, caption, details
+    return media, caption, details, query
     
 def search_query(request_text, search_terms):
     """Determines serach query to be used for simple requests"""
