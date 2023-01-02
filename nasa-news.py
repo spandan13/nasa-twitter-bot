@@ -33,8 +33,13 @@ def tweet_poster(news):
             full_link = 'https://www.jpl.nasa.gov' + link
             soup = make_soup(full_link)
             output = soup.find('div', class_='BaseImagePlaceholder')
-            img_link = output('img')[0].get('data-src')
-            img_id = str(img_link).split('images/')[1].split('.')[0]
+            try: # Normal image
+                img_link = output('img')[0].get('data-src')
+                img_id = str(img_link).split('images/')[1].split('.')[0]
+            except IndexError: # Probably a youtube video
+                video_link = output('iframe')[0].get('src')
+                img_id = str(video_link).split('/')[-1].split('?')[0]
+                img_link = (f"https://img.youtube.com/vi/{img_id}/maxresdefault.jpg")
             media = req.get_img_file(img_link, img_id, config.temp_downloads, news=True)
             tweet_text = (f"\U0001F4F0 #NASA News Update: {title}.\n\U000027A1 More Details: {full_link}")
             t = status.Tweet(media, tweet_text)
