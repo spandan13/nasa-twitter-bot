@@ -27,7 +27,7 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} {caption}. #{search_query.capitalize().replace(' ','').replace('%20','')} #Space #NASA\n\U000027A1 More Details: {details_link}")
     
     t = status.Tweet(media, tweet_text, reply_id)
-    tweet_id = t.post_to_twitter(api) #Posts tweet using twitter API
+    tweet_id = t.post_to_twitter(api, config.auth_v1) #Posts tweet using twitter API
     log_line = logger.log_line(post_number, tweet_id, media.split('/')[5], reply_id, request_user)
     logger.add_line(log_line, log)
     print(f"@{str(request_user)} | {str(request_text)} | {str(media.split('/')[5])} | {str(tweet_id)}") #Prints tweet details to screen. Comment if not needed
@@ -79,9 +79,9 @@ def respond_to_request(request_tweet):
     """Gets information necessary to respond to simple requests.
     Sends it forward to tweet_poster function"""
     post_number = get_post_number(config.log_file)
-    request_text = request_tweet.text.lower()
-    reply_id = request_tweet.id
-    user_name = request_tweet.user.screen_name
+    request_text = request_tweet['full_text'].lower()
+    reply_id = request_tweet['tweet_id']
+    user_name = request_tweet['user_name']
     search_query = requests.search_query(request_text, config.search_terms)
     if requests.blocked(user_name, config.blocked):
         tweet_id = "Ignored:Blocked" #This was done to get info in logfile
@@ -96,9 +96,9 @@ def respond_to_apod(request_tweet):
     """Gets information necessary to respond to APOD requests.
     Sends it forward to tweet_poster function"""
     post_number = get_post_number(config.log_file)
-    request_text = request_tweet.text.lower()
-    reply_id = request_tweet.id
-    user_name = request_tweet.user.screen_name
+    request_text = request_tweet['full_text'].lower()
+    reply_id = request_tweet['tweet_id']
+    user_name = request_tweet['user_name']
     try:
         search_date = request_text.split('#')[1].split()[0] #Gets APOD date mentioned in tweet
     except IndexError:
@@ -119,27 +119,25 @@ def orders():
     time = config.time_tolerance
     master = (config.master_account).lower()
     ban_command = config.ban_command
-    api = config.api
     post_number = get_post_number(log)
-    mentions = requests.mentions(config.bot_account, config.api)
+    mentions = requests.mentions(config.bot_account, config.scrape)
     master_mentions = requests.master_mentions(mentions, log, master)
     relevant_mentions = requests.relevant_mentions(mentions, log, time)
 
     for tweet in relevant_mentions:
         for command in config.request_commands:
             if requests.is_img_request(tweet, config.bot_account, command):
-                if "apod" in tweet.text.lower(): #Checks if it is APOD request
+                if "apod" in tweet['full_text'].lower(): #Checks if it is APOD request
                     respond_to_apod(tweet)
                 else:
                     respond_to_request(tweet) #Else it is simple request
     
     for tweet in master_mentions:
         if requests.is_delete_order(tweet, ban_command):
-            id_to_delete = tweet.in_reply_to_status_id
-            status.delete_tweet_by_id(tweet.in_reply_to_status_id, api)
+            id_to_delete = tweet['in_reply_to']
             requests.ban_image_by_tweet_id(id_to_delete, config.banned_twt, config.log_file)
-            logger.add_banned_to_log(post_number, tweet.id, config.log_file)
-            print("IMAGE BANNED: " + str(tweet.id))
+            logger.add_banned_to_log(post_number, tweet['tweet_id'], config.log_file)
+            print("IMAGE BANNED: " + str(tweet['tweet_id']))
 
 def daily_apod():
     """Posts daily APOD at time set in settings"""
@@ -152,7 +150,7 @@ def daily_apod():
         media, caption, details = requests.get_apod(config.nasa_api_key, str(date), config.temp_downloads)
         tweet_text = (f"\U0001F30C #Astronomy Picture of the Day - {date.strftime('%B %d %Y')}: {caption}. #APOD #NASA\n\U000027A1 More Details: {details}")
         t = status.Tweet(media, tweet_text, reply_id=None)
-        tweet_id = t.post_to_twitter(api=config.api)
+        tweet_id = t.post_to_twitter(config.api, config.auth_v1)
         log_line = logger.log_line(post_number, tweet_id, media.split('/')[5], reply_id=None, request_user='APOD')
         logger.add_line(log_line, log)
         print(f"APOD Posted | {str(media.split('/')[5])} | {str(tweet_id)}")
