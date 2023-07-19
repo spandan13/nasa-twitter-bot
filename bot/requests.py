@@ -31,13 +31,14 @@ def search_query(request_text, search_terms):
         query = random.choice(search_terms).replace(' ','%20')
     return query
 
-def get_apod(api_key, date, temp_download):
+def get_apod(date, temp_download):
     """Gets media, caption and details
-    for APOD using NASA API"""
-    apod_url = (f"https://api.nasa.gov/planetary/apod?api_key={api_key}&")
+    for APOD using Locally hosted NASA APOD API"""
+    apod_url = 'http://localhost:5000/v1/apod?'
     apod = requests.get(f'{apod_url}date={date}').json()
-    media_link = apod['url']
-    if 'youtube' in media_link: #If APOD is a youtube video, post thumbnail
+    if apod['media_type'] == 'image':
+        media_link = apod['hdurl']
+    elif apod['media_type'] == 'video':
         media_link = (f"https://img.youtube.com/vi/{media_link.split('/')[-1].split('?')[0]}/maxresdefault.jpg")
     file_ext = media_link.split('.')[-1]
     caption = apod['title']

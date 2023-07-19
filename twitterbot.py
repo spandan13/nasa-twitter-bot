@@ -18,7 +18,7 @@ def tweet_poster(reply_id, request_text, request_user, search_query, apod=False)
     search_terms = config.search_terms
 
     if apod == True: #For APOD requests
-        media, caption, details_link = requests.get_apod(config.nasa_api_key, search_query, config.temp_downloads)
+        media, caption, details_link = requests.get_apod(search_query, config.temp_downloads)
         tweet_text = (f"@{request_user} \U0001F30C{config.tweet_text} #Astronomy Picture of the Day for {search_query}: {caption}. #NASA #APOD\n\U000027A1 More Details: {details_link}")
     else: #For simple requests
         media, caption, details_link, search_query = requests.get_nasa_img(search_query, config.temp_downloads, search_terms)
@@ -141,13 +141,13 @@ def orders():
 
 def daily_apod():
     """Posts daily APOD at time set in settings"""
-    force_apod = False
+    force_apod = True
     time_now = datetime.datetime.now().strftime("%H:%M")
     date = datetime.date.today()
     log = config.log_file
     post_number = get_post_number(log)
     if time_now == config.apod_time and not requests.apod_posted(log, str(date)) or force_apod == True:
-        media, caption, details = requests.get_apod(config.nasa_api_key, str(date), config.temp_downloads)
+        media, caption, details = requests.get_apod(str(date), config.temp_downloads)
         tweet_text = (f"\U0001F30C #Astronomy Picture of the Day - {date.strftime('%B %d %Y')}: {caption}. #APOD #NASA\n\U000027A1 More Details: {details}")
         t = status.Tweet(media, tweet_text, reply_id=None)
         tweet_id = t.post_to_twitter(config.api, config.auth_v1)
