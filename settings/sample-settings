@@ -7,6 +7,8 @@ twt_secret_key = xxxxxxxxxxxxx
 twt_token = xxxxxxxxxxxxxxx
 twt_secret_token = xxxxxxxxxxxx
 nasa_api_key = xxxxxxxxxxxxx
+ct0 = xxxxxxxxxxxxx
+auth_token = xxxxxxxxxxxxxxxxx
 
 [App]
 allow_repeat_after = 50

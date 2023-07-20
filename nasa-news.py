@@ -46,8 +46,8 @@ def tweet_poster(news):
                     img_link = "https://cdn.mos.cms.futurecdn.net/baYs9AuHxx9QXeYBiMvSLU.jpg"
             media = req.get_img_file(img_link, img_id, config.temp_downloads, news=True)
             tweet_text = (f"\U0001F4F0 #NASA News Update: {title}.\n\U000027A1 More Details: {full_link}")
-            t = status.Tweet(media, tweet_text)
-            tweet_id = t.post_to_twitter(api=config.api)
+            t = status.Tweet(media, tweet_text, reply_id=None)
+            tweet_id = t.post_to_twitter(config.api, config.auth_v1)
             post_number = twtbot.get_post_number(config.log_file)
             log_line = logger.log_line(post_number, tweet_id, media.split('/')[5], link, request_user='NEWS')
             logger.add_line(log_line, config.log_file)
