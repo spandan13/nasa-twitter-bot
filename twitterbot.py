@@ -6,6 +6,8 @@ from bot import requests
 from logs import logger
 import datetime
 import os
+import sys
+import argparse
 
 """The main module that connects all modules together"""
 
@@ -139,14 +141,13 @@ def orders():
             logger.add_banned_to_log(post_number, tweet['tweet_id'], config.log_file)
             print("IMAGE BANNED: " + str(tweet['tweet_id']))
 
-def daily_apod():
+def daily_apod(force=False):
     """Posts daily APOD at time set in settings"""
-    force_apod = True
     time_now = datetime.datetime.now().strftime("%H:%M")
     date = datetime.date.today()
     log = config.log_file
     post_number = get_post_number(log)
-    if time_now == config.apod_time and not requests.apod_posted(log, str(date)) or force_apod == True:
+    if time_now == config.apod_time and not requests.apod_posted(log, str(date)) or force == True:
         media, caption, details = requests.get_apod(str(date), config.temp_downloads)
         tweet_text = (f"\U0001F30C #Astronomy Picture of the Day - {date.strftime('%B %d %Y')}: {caption}. #APOD #NASA\n\U000027A1 More Details: {details}")
         t = status.Tweet(media, tweet_text, reply_id=None)
@@ -155,10 +156,18 @@ def daily_apod():
         logger.add_line(log_line, log)
         print(f"APOD Posted | {str(media.split('/')[5])} | {str(tweet_id)}")
 
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--tweet", help="Ignores time and posts APOD", action="store_true")
+    return parser.parse_args()
+
 def main():
     """Runs the entire program with all functions"""
 
-    daily_apod() #First checks if it is time to post APOD
+    args = parse_args(sys.argv[1:])
+    force_tweet = args.tweet
+    
+    daily_apod(force_tweet) #First checks if it is time to post APOD
     
     orders() #Then checks for requests and posts replies
 
